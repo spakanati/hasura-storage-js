@@ -1,0 +1,76 @@
+{
+  "name": "@nhost/hasura-storage-js",
+  "version": "0.7.1",
+  "description": "Hasura-storage client",
+  "license": "MIT",
+  "keywords": [
+    "nhost",
+    "hasura",
+    "storage",
+    "graphql",
+    "s3"
+  ],
+  "author": "Nhost",
+  "homepage": "https://nhost.io",
+  "bugs": "https://github.com/nhost/hasura-storage-js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nhost/hasura-storage-js.git"
+  },
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "files": [
+    "dist",
+    "umd",
+    "README.md"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "node": "./dist/index.cjs.js",
+        "default": "./dist/index.esm.js"
+      },
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "vite build --config ../../config/vite.lib.dev.config.js",
+    "build": "run-p build:lib build:umd",
+    "build:lib": "vite build",
+    "build:umd": "vite build --config ../../config/vite.lib.umd.config.js",
+    "e2e": "start-test e2e:backend http-get://localhost:9695 ci:test",
+    "ci:test": "vitest run",
+    "e2e:backend": "nhost dev --no-browser",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prettier": "prettier --check src/",
+    "prettier:fix": "prettier --write src/",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "verify": "run-p prettier lint",
+    "verify:fix": "run-p prettier:fix lint:fix",
+    "typedoc": "typedoc --options ./storage.typedoc.json --tsconfig ./typedoc.tsconfig.json",
+    "docgen": "pnpm typedoc && docgen --config ./storage.docgen.json"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "form-data": "^4.0.0",
+    "xstate": "^4.33.5"
+  },
+  "peerDependencies": {
+    "@nhost/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@nhost/core": "workspace:*",
+    "@nhost/docgen": "workspace:*",
+    "cross-fetch": "^3.1.5",
+    "start-server-and-test": "^1.14.0",
+    "uuid": "^8.3.2"
+  }
+}
